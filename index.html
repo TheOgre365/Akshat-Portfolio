@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Akshat Darji • AI Web Architect | Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #020617;
+      --accent: #3b82f6; 
+      --accent-glow: rgba(59, 130, 246, 0.4);
+      --text-main: #f8fafc;
+      --text-muted: #94a3af;
+      --glass: rgba(255, 255, 255, 0.03);
+      --glass-border: rgba(255, 255, 255, 0.1);
+      --live: #22c55e;
+      --working: #f59e0b;
+      --focus: #a855f7;
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+    body { font-family: "Poppins", sans-serif; background: var(--bg); color: var(--text-main); overflow-x: hidden; }
+
+    /* --- ANIMATED NEURAL BACKGROUND --- */
+    .bg-canvas { position: fixed; inset: 0; z-index: -1; }
+    .neural-orb {
+      position: absolute; width: 600px; height: 600px; border-radius: 50%;
+      background: radial-gradient(circle, var(--accent-glow), transparent 70%);
+      filter: blur(100px); opacity: 0.35; animation: orbit 25s infinite linear;
+    }
+    @keyframes orbit { from { transform: rotate(0deg) translateX(100px) rotate(0deg); } to { transform: rotate(360deg) translateX(100px) rotate(-360deg); } }
+
+    header { position: fixed; top: 0; width: 100%; z-index: 100; backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); background: rgba(2, 6, 23, 0.8); }
+    nav { max-width: 1300px; margin: 0 auto; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-size: 1.6rem; font-weight: 800; letter-spacing: -1px; }
+    .logo span { color: var(--accent); }
+
+    section { padding: 100px 30px; max-width: 1300px; margin: 0 auto; }
+    .section-title { font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; margin-bottom: 50px; text-align: center; }
+    .section-title span { color: var(--accent); }
+
+    /* --- SKILL RADAR CHART (CSS ONLY) --- */
+    .chart-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 50px; }
+    .radar-box { background: var(--glass); border: 1px solid var(--glass-border); padding: 40px; border-radius: 30px; display: flex; flex-direction: column; align-items: center; }
+    .radar { width: 250px; height: 250px; position: relative; border-radius: 50%; border: 1px dashed var(--glass-border); display: flex; align-items: center; justify-content: center; }
+    .radar-shape { 
+        width: 80%; height: 80%; background: var(--accent-glow); clip-path: polygon(50% 0%, 100% 38%, 81% 100%, 19% 100%, 0% 38%);
+        animation: pulseRadar 4s infinite alternate;
+    }
+    @keyframes pulseRadar { from { transform: scale(0.9); opacity: 0.6; } to { transform: scale(1.1); opacity: 1; } }
+    .label { position: absolute; font-size: 0.7rem; font-weight: 700; color: var(--accent); text-transform: uppercase; }
+
+    /* --- WORKFLOW FLOWCHART --- */
+    .flow-chart { display: flex; flex-direction: column; gap: 20px; align-items: center; margin-top: 40px; }
+    .flow-step { background: var(--glass); border: 1px solid var(--glass-border); padding: 20px 40px; border-radius: 15px; width: 100%; max-width: 500px; text-align: center; position: relative; }
+    .flow-step::after { content: '↓'; position: absolute; bottom: -25px; left: 50%; color: var(--accent); font-weight: 800; }
+    .flow-step:last-child::after { content: ''; }
+
+    /* --- PROJECTS --- */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 30px; }
+    .pro-card { background: var(--glass); border: 1px solid var(--glass-border); padding: 40px; border-radius: 30px; transition: 0.4s; position: relative; }
+    .pro-card:hover { border-color: var(--accent); transform: translateY(-10px); }
+    .badge { padding: 4px 12px; border-radius: 50px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; display: inline-block; }
+    .badge-live { background: rgba(34, 197, 94, 0.1); color: var(--live); border: 1px solid var(--live); }
+
+    /* --- REVEAL --- */
+    .reveal { opacity: 0; transform: translateY(50px); transition: 1s ease-out; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 900px) { .chart-container { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+
+  <div class="bg-canvas">
+    <div class="neural-orb" style="top: -10%; left: -5%;"></div>
+    <div class="neural-orb" style="bottom: -10%; right: -5%; background: radial-gradient(circle, rgba(168, 85, 247, 0.4), transparent 70%);"></div>
+  </div>
+
+  <header>
+    <nav>
+      <div class="logo">AKSHAT<span>.PRO</span></div>
+      <ul style="display: flex; gap: 25px; list-style: none; font-size: 0.85rem;">
+        <li><a href="#about" style="color: var(--text-muted); text-decoration: none;">Intelligence</a></li>
+        <li><a href="#projects" style="color: var(--text-muted); text-decoration: none;">Ecosystem</a></li>
+        <li><a href="#contact" style="color: white; text-decoration: none; background: var(--accent); padding: 8px 20px; border-radius: 50px;">Hire Me</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section style="height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center;">
+      <div class="reveal">
+        <h1 style="font-size: clamp(3rem, 10vw, 6rem); line-height: 0.9; margin-bottom: 20px;">Akshat Darji</h1>
+        <p style="color: var(--text-muted); max-width: 700px; margin: 0 auto 40px;">Pro AI-Based Developer merging neural logic with high-performance web architecture.</p>
+        <div style="display: flex; gap: 15px; justify-content: center;">
+          <a href="#projects" style="padding: 18px 40px; border-radius: 50px; background: var(--accent); color: white; text-decoration: none; font-weight: 700;">Explore Work</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <h2 class="section-title reveal">Intelligence <span>Matrix</span></h2>
+      <div class="chart-container">
+        
+        <div class="radar-box reveal">
+          <h3 style="margin-bottom: 30px;">Neural Performance Chart</h3>
+          <div class="radar">
+            <div class="radar-shape"></div>
+            <span class="label" style="top: -30px;">Logic Building</span>
+            <span class="label" style="right: -40px; top: 40%;">AI Integration</span>
+            <span class="label" style="bottom: -30px;">Data Structure</span>
+            <span class="label" style="left: -40px; top: 40%;">UI Architecture</span>
+          </div>
+          <p style="margin-top: 40px; font-size: 0.85rem; color: var(--text-muted); text-align: center;">
+            Visualization of my pro-level performance across core development pillars, optimized by AI.
+          </p>
+        </div>
+
+        <div class="radar-box reveal">
+          <h3 style="margin-bottom: 30px;">AI-Driven Workflow</h3>
+          <div class="flow-chart">
+            <div class="flow-step"><h4>Neural Research</h4><p>Grok • DeepSeek • Perplexity</p></div>
+            <div class="flow-step"><h4>Logic Architecture</h4><p>ChatGPT • Gemini • Logic Mapping</p></div>
+            <div class="flow-step"><h4>Pro-Level Coding</h4><p>Blackbox • Replit AI • Clean Execution</p></div>
+            <div class="flow-step"><h4>Automated QA</h4><p>Debugging & Scalability Testing</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+        <h2 class="section-title reveal">Academic <span>Blueprint</span></h2>
+        <div style="background: var(--glass); border: 1px solid var(--glass-border); padding: 50px; border-radius: 30px;" class="reveal">
+            <div style="border-left: 2px solid var(--accent); padding-left: 30px; margin-bottom: 40px; position: relative;">
+                <h4 style="font-size: 1.5rem; margin-bottom: 10px;">BTECH in Computer Science</h4>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">Currently Pursuing • Deep focus on AI Algorithms and Data Structure Efficiency.</p>
+            </div>
+            <div style="border-left: 2px solid var(--accent); padding-left: 30px; position: relative;">
+                <h4 style="font-size: 1.5rem; margin-bottom: 10px;">Diploma in Information Technology</h4>
+                <p style="color: var(--text-muted); font-size: 0.95rem;">Completed • Core principles of Software Engineering & Web Models.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+      <h2 class="section-title reveal">Project <span>Ecosystem</span></h2>
+      <div class="projects-grid">
+        <article class="pro-card reveal">
+          <span class="badge badge-live">LIVE</span>
+          <h3>FounderAI</h3>
+          <p>A professional AI engine that generates comprehensive business trajectory roadmaps. Proof of AI integration in real-world logic.</p>
+          <a href="https://founder-ai-roadmap.vercel.app/" target="_blank" style="color: var(--accent); font-weight: 700; text-decoration: none;">Launch Engine ↗</a>
+        </article>
+
+        <article class="pro-card reveal" style="border-style: dashed;">
+          <span class="badge" style="color: var(--focus); border: 1px solid var(--focus);">FOCUS</span>
+          <h3>Enough thinking</h3>
+          <p>AI-powered decision architecture to stop overthinking and start building. In private development.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="contact" style="text-align: center;">
+      <h2 class="section-title reveal">Connect with <span>Akshat</span></h2>
+      <a href="mailto:akshatdarji278@gmail.com" style="font-size: clamp(1rem, 5vw, 2.5rem); color: white; text-decoration: none; display: block; margin-bottom: 30px;">akshatdarji278@gmail.com</a>
+      <a href="https://wa.me/917861874004" style="padding: 15px 40px; border-radius: 50px; background: white; color: black; text-decoration: none; font-weight: 700;">WhatsApp Pro Chat</a>
+    </section>
+  </main>
+
+  <footer style="padding: 60px; text-align: center; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--glass-border);">
+    © 2026 AKSHAT DARJI • BTECH CS & DIPLOMA IT • PRO AI DEVELOPER
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
