@@ -58,10 +58,11 @@
 
     /* --- PROJECTS --- */
     .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 30px; }
-    .pro-card { background: var(--glass); border: 1px solid var(--glass-border); padding: 40px; border-radius: 30px; transition: 0.4s; position: relative; }
+    .pro-card { background: var(--glass); border: 1px solid var(--glass-border); padding: 40px; border-radius: 30px; transition: 0.4s; position: relative; display: flex; flex-direction: column; justify-content: space-between; }
     .pro-card:hover { border-color: var(--accent); transform: translateY(-10px); }
     .badge { padding: 4px 12px; border-radius: 50px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; display: inline-block; }
     .badge-live { background: rgba(34, 197, 94, 0.1); color: var(--live); border: 1px solid var(--live); }
+    .tech-stack { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 20px; font-family: monospace; }
 
     /* --- REVEAL --- */
     .reveal { opacity: 0; transform: translateY(50px); transition: 1s ease-out; }
@@ -146,17 +147,37 @@
     <section id="projects">
       <h2 class="section-title reveal">Project <span>Ecosystem</span></h2>
       <div class="projects-grid">
+        
         <article class="pro-card reveal">
-          <span class="badge badge-live">LIVE</span>
-          <h3>FounderAI</h3>
-          <p>A professional AI engine that generates comprehensive business trajectory roadmaps. Proof of AI integration in real-world logic.</p>
-          <a href="https://founder-ai-roadmap.vercel.app/" target="_blank" style="color: var(--accent); font-weight: 700; text-decoration: none;">Launch Engine ↗</a>
+          <div>
+            <span class="badge badge-live">LIVE SYSTEM</span>
+            <h3>Equip Track</h3>
+            <p class="tech-stack">[ React • Supabase • QR Code • SQL ]</p>
+            <p style="margin-bottom: 20px;">Enterprise-grade Asset Management System. Companies can track inventory, assign devices to specific employees, and generate printable QR codes for instant asset identification.</p>
+          </div>
+          <a href="https://equip-track-five.vercel.app/" target="_blank" style="color: var(--accent); font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 5px;">
+            Access System <span style="font-size: 1.2rem;">&rarr;</span>
+          </a>
+        </article>
+        
+        <article class="pro-card reveal">
+          <div>
+            <span class="badge badge-live">LIVE</span>
+            <h3>FounderAI</h3>
+            <p class="tech-stack">[ AI Integration • Trajectory Mapping ]</p>
+            <p style="margin-bottom: 20px;">A professional AI engine that generates comprehensive business trajectory roadmaps. Proof of AI integration in real-world logic.</p>
+          </div>
+          <a href="https://founder-ai-roadmap.vercel.app/" target="_blank" style="color: var(--accent); font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 5px;">
+            Launch Engine <span style="font-size: 1.2rem;">&rarr;</span>
+          </a>
         </article>
 
         <article class="pro-card reveal" style="border-style: dashed;">
-          <span class="badge" style="color: var(--focus); border: 1px solid var(--focus);">FOCUS</span>
-          <h3>Enough thinking</h3>
-          <p>AI-powered decision architecture to stop overthinking and start building. In private development.</p>
+          <div>
+             <span class="badge" style="color: var(--focus); border: 1px solid var(--focus);">FOCUS</span>
+             <h3>Enough thinking</h3>
+             <p style="margin-bottom: 20px;">AI-powered decision architecture to stop overthinking and start building. In private development.</p>
+          </div>
         </article>
       </div>
     </section>
