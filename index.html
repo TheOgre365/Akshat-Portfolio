@@ -2,9 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Akshat Darji • AI Web Architect | Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Akshat Darji • Full Stack & AI Developer</title>
+  
+  <link rel="icon" href="https://img.icons8.com/fluency/48/robot-3.png" type="image/png">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
   <style>
     :root {
       --bg: #020617;
@@ -13,184 +18,522 @@
       --text-main: #f8fafc;
       --text-muted: #94a3af;
       --glass: rgba(255, 255, 255, 0.03);
-      --glass-border: rgba(255, 255, 255, 0.1);
+      --glass-border: rgba(255, 255, 255, 0.08);
       --live: #22c55e;
       --working: #f59e0b;
       --focus: #a855f7;
+      --nav-height: 70px;
     }
-    * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
-    body { font-family: "Poppins", sans-serif; background: var(--bg); color: var(--text-main); overflow-x: hidden; }
 
-    /* --- ANIMATED NEURAL BACKGROUND --- */
-    .bg-canvas { position: fixed; inset: 0; z-index: -1; }
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html { scroll-behavior: smooth; }
+    body { 
+      font-family: "Poppins", sans-serif; 
+      background: var(--bg); 
+      color: var(--text-main); 
+      overflow-x: hidden; 
+      line-height: 1.6;
+    }
+
+    /* --- SCROLL PROGRESS BAR --- */
+    #progress-bar {
+      position: fixed; top: 0; left: 0; height: 3px; background: var(--accent);
+      width: 0%; z-index: 1001; transition: width 0.1s;
+      box-shadow: 0 0 10px var(--accent);
+    }
+
+    /* --- ANIMATED BACKGROUNDS --- */
+    .bg-canvas { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+    
+    .bg-grid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(var(--glass-border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--glass-border) 1px, transparent 1px);
+      background-size: 40px 40px;
+      mask-image: radial-gradient(circle at center, black 40%, transparent 100%);
+      opacity: 0.4;
+      animation: gridMove 20s linear infinite;
+    }
+    @keyframes gridMove { 0% { transform: translateY(0); } 100% { transform: translateY(40px); } }
+
     .neural-orb {
-      position: absolute; width: 600px; height: 600px; border-radius: 50%;
+      position: absolute; border-radius: 50%;
+      filter: blur(90px); opacity: 0.25; animation: float 10s infinite ease-in-out alternate;
+    }
+    .orb-1 { 
+      width: 50vw; height: 50vw; top: -10%; left: -10%; 
       background: radial-gradient(circle, var(--accent-glow), transparent 70%);
-      filter: blur(100px); opacity: 0.35; animation: orbit 25s infinite linear;
     }
-    @keyframes orbit { from { transform: rotate(0deg) translateX(100px) rotate(0deg); } to { transform: rotate(360deg) translateX(100px) rotate(-360deg); } }
+    .orb-2 { 
+      width: 60vw; height: 60vw; bottom: -10%; right: -10%; 
+      background: radial-gradient(circle, rgba(168, 85, 247, 0.3), transparent 70%);
+      animation-delay: -5s;
+    }
+    @keyframes float { 
+      0% { transform: translate(0, 0) scale(1); } 
+      100% { transform: translate(20px, 40px) scale(1.1); } 
+    }
 
-    header { position: fixed; top: 0; width: 100%; z-index: 100; backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); background: rgba(2, 6, 23, 0.8); }
-    nav { max-width: 1300px; margin: 0 auto; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
-    .logo { font-size: 1.6rem; font-weight: 800; letter-spacing: -1px; }
+    /* --- HEADER --- */
+    header { 
+      position: fixed; top: 0; width: 100%; z-index: 1000; 
+      backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+      border-bottom: 1px solid var(--glass-border); 
+      background: rgba(2, 6, 23, 0.85);
+      height: var(--nav-height);
+      transition: 0.3s;
+    }
+    nav { 
+      max-width: 1300px; margin: 0 auto; padding: 0 20px; height: 100%;
+      display: flex; justify-content: space-between; align-items: center; 
+    }
+    
+    .logo { font-size: 1.4rem; font-weight: 800; letter-spacing: -0.5px; z-index: 1002; position: relative; display: flex; align-items: center; gap: 10px; }
     .logo span { color: var(--accent); }
-
-    section { padding: 100px 30px; max-width: 1300px; margin: 0 auto; }
-    .section-title { font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; margin-bottom: 50px; text-align: center; }
-    .section-title span { color: var(--accent); }
-
-    /* --- SKILL RADAR CHART (CSS ONLY) --- */
-    .chart-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 50px; }
-    .radar-box { background: var(--glass); border: 1px solid var(--glass-border); padding: 40px; border-radius: 30px; display: flex; flex-direction: column; align-items: center; }
-    .radar { width: 250px; height: 250px; position: relative; border-radius: 50%; border: 1px dashed var(--glass-border); display: flex; align-items: center; justify-content: center; }
-    .radar-shape { 
-        width: 80%; height: 80%; background: var(--accent-glow); clip-path: polygon(50% 0%, 100% 38%, 81% 100%, 19% 100%, 0% 38%);
-        animation: pulseRadar 4s infinite alternate;
+    
+    .nav-links { display: flex; gap: 30px; list-style: none; align-items: center; }
+    .nav-links a { 
+      color: var(--text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; 
+      transition: 0.3s; position: relative;
     }
-    @keyframes pulseRadar { from { transform: scale(0.9); opacity: 0.6; } to { transform: scale(1.1); opacity: 1; } }
-    .label { position: absolute; font-size: 0.7rem; font-weight: 700; color: var(--accent); text-transform: uppercase; }
+    .nav-links a:hover { color: white; }
+    .nav-links a::after {
+        content: ''; position: absolute; bottom: -5px; left: 0; width: 0%; height: 2px;
+        background: var(--accent); transition: 0.3s;
+    }
+    .nav-links a:hover::after { width: 100%; }
 
-    /* --- WORKFLOW FLOWCHART --- */
-    .flow-chart { display: flex; flex-direction: column; gap: 20px; align-items: center; margin-top: 40px; }
-    .flow-step { background: var(--glass); border: 1px solid var(--glass-border); padding: 20px 40px; border-radius: 15px; width: 100%; max-width: 500px; text-align: center; position: relative; }
-    .flow-step::after { content: '↓'; position: absolute; bottom: -25px; left: 50%; color: var(--accent); font-weight: 800; }
-    .flow-step:last-child::after { content: ''; }
+    .nav-links .btn-cta { 
+      color: white; background: var(--accent); padding: 8px 24px; border-radius: 50px; 
+      font-weight: 600; box-shadow: 0 4px 15px var(--accent-glow); position: relative; overflow: hidden;
+    }
+    .nav-links .btn-cta::before {
+        content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: 0.5s;
+    }
+    .nav-links .btn-cta:hover::before { left: 100%; }
+    .nav-links .btn-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 25px var(--accent-glow); }
 
-    /* --- PROJECTS --- */
-    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 30px; }
-    .pro-card { background: var(--glass); border: 1px solid var(--glass-border); padding: 40px; border-radius: 30px; transition: 0.4s; position: relative; display: flex; flex-direction: column; justify-content: space-between; }
-    .pro-card:hover { border-color: var(--accent); transform: translateY(-10px); }
-    .badge { padding: 4px 12px; border-radius: 50px; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; display: inline-block; }
+    .hamburger { display: none; font-size: 1.5rem; color: var(--text-main); cursor: pointer; z-index: 1002; }
+
+    /* --- SECTIONS GENERAL --- */
+    section { padding: 100px 20px; max-width: 1200px; margin: 0 auto; }
+    .section-title { 
+      font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700; margin-bottom: 60px; text-align: center; 
+      line-height: 1.1; position: relative;
+    }
+    .section-title span { 
+      color: transparent; -webkit-text-stroke: 1px var(--accent); position: relative; 
+    }
+    .section-title span::after {
+      content: attr(data-text); position: absolute; left: 0; color: var(--accent); 
+      width: 0%; overflow: hidden; white-space: nowrap; border-right: 2px solid var(--accent);
+      animation: typeFill 4s infinite alternate;
+    }
+    @keyframes typeFill { 0% { width: 0%; } 50%, 100% { width: 100%; } }
+
+    /* --- HERO --- */
+    .hero { 
+      min-height: 100vh; display: flex; flex-direction: column; 
+      justify-content: center; align-items: center; text-align: center; 
+      padding-top: var(--nav-height);
+    }
+    .system-badge {
+      margin-bottom: 25px; display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 18px; border: 1px solid var(--accent); border-radius: 20px; 
+      color: var(--accent); font-size: 0.8rem; font-weight: 600;
+      background: rgba(59, 130, 246, 0.05);
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+    }
+    .status-dot { width: 8px; height: 8px; background: var(--live); border-radius: 50%; animation: blink 1.5s infinite; }
+    @keyframes blink { 0%, 100% { opacity: 1; box-shadow: 0 0 10px var(--live); } 50% { opacity: 0.4; box-shadow: none; } }
+
+    .hero h1 { 
+      font-size: clamp(3rem, 10vw, 6rem); line-height: 1.1; margin-bottom: 10px; font-weight: 800;
+      background: linear-gradient(to right, #fff, #94a3af); -webkit-background-clip: text; color: transparent;
+      letter-spacing: -2px;
+    }
+    
+    .hero-role {
+        font-size: clamp(1.2rem, 3vw, 1.8rem); font-weight: 600; color: white; margin-bottom: 20px;
+        display: inline-block; overflow: hidden; white-space: nowrap; border-right: 3px solid var(--accent);
+        animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+        width: 100%; max-width: 24ch; 
+    }
+    @keyframes typing { from { width: 0 } to { width: 100% } }
+    @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--accent); } }
+
+    .hero p { color: var(--text-muted); max-width: 600px; margin: 0 auto 40px; font-size: 1.1rem; }
+    
+    .hero-btns { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+    .btn-primary { 
+      padding: 16px 40px; border-radius: 50px; background: var(--accent); color: white; 
+      text-decoration: none; font-weight: 600; transition: 0.3s; position: relative; overflow: hidden;
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+    .btn-primary::before {
+        content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+        transition: 0.5s;
+    }
+    .btn-primary:hover::before { left: 100%; }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 10px 30px var(--accent-glow); }
+
+    .btn-secondary {
+      padding: 16px 40px; border-radius: 50px; background: rgba(255,255,255,0.05); color: white; 
+      text-decoration: none; font-weight: 600; border: 1px solid var(--glass-border); transition: 0.3s;
+      backdrop-filter: blur(5px);
+    }
+    .btn-secondary:hover { background: rgba(255,255,255,0.1); border-color: white; transform: translateY(-3px); }
+
+    /* --- INTELLIGENCE MATRIX --- */
+    .chart-container { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 20px; }
+    
+    .radar-box { 
+      background: var(--glass); border: 1px solid var(--glass-border); 
+      padding: 40px 30px; border-radius: 24px; display: flex; flex-direction: column; align-items: center; 
+      position: relative; overflow: hidden; backdrop-filter: blur(10px);
+    }
+    .radar-box::after {
+      content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: linear-gradient(to bottom, transparent, rgba(59, 130, 246, 0.05), transparent);
+      animation: scanVertical 4s infinite linear; pointer-events: none;
+    }
+    @keyframes scanVertical { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+
+    .radar { 
+      width: 220px; height: 220px; position: relative; border-radius: 50%; 
+      border: 1px dashed var(--glass-border); display: flex; align-items: center; justify-content: center; 
+      margin: 20px 0;
+    }
+    .radar-shape { 
+        width: 70%; height: 70%; background: var(--accent-glow); 
+        clip-path: polygon(50% 0%, 100% 38%, 81% 100%, 19% 100%, 0% 38%);
+        animation: pulseRadar 3s infinite ease-in-out;
+    }
+    @keyframes pulseRadar { 0% { transform: scale(0.9); opacity: 0.5; } 100% { transform: scale(1.1); opacity: 0.9; } }
+    .label { position: absolute; font-size: 0.7rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 1px; }
+
+    .flow-chart { display: flex; flex-direction: column; gap: 15px; width: 100%; }
+    .flow-step { 
+      background: rgba(255,255,255,0.02); border: 1px solid var(--glass-border); 
+      padding: 15px; border-radius: 12px; text-align: center; position: relative; transition: 0.3s;
+    }
+    .flow-step:hover { border-color: var(--accent); background: rgba(59, 130, 246, 0.05); }
+    .flow-step h4 { color: var(--text-main); font-size: 0.95rem; }
+    .flow-step p { color: var(--text-muted); font-size: 0.8rem; margin-top: 5px; }
+    .flow-step:not(:last-child)::after {
+      content: '↓'; display: block; color: var(--accent); margin-top: 10px; font-weight: 800;
+    }
+
+    /* --- CARDS (PROJECTS & SERVICES) --- */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+    .pro-card { 
+      background: rgba(255, 255, 255, 0.02); border: 1px solid var(--glass-border); 
+      padding: 35px; border-radius: 24px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+      display: flex; flex-direction: column; justify-content: space-between;
+      height: 100%; position: relative; overflow: hidden;
+    }
+    .pro-card:hover { 
+      transform: translateY(-10px) scale(1.02); 
+      border-color: var(--accent); 
+      box-shadow: 0 20px 40px -10px rgba(0,0,0,0.6);
+      background: rgba(255, 255, 255, 0.04);
+    }
+    .pro-card h3 { font-size: 1.4rem; margin: 15px 0 10px; font-weight: 700; }
+    .badge { 
+      padding: 5px 12px; border-radius: 6px; font-size: 0.65rem; font-weight: 800; 
+      text-transform: uppercase; letter-spacing: 1px; display: inline-block; 
+    }
     .badge-live { background: rgba(34, 197, 94, 0.1); color: var(--live); border: 1px solid var(--live); }
-    .tech-stack { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 20px; font-family: monospace; }
+    .badge-focus { color: var(--focus); border: 1px solid var(--focus); background: rgba(168, 85, 247, 0.1); }
+    
+    .tech-stack { font-size: 0.8rem; color: var(--accent); margin-bottom: 15px; font-family: monospace; opacity: 0.9; }
+    .link-arrow { 
+      margin-top: 20px; padding: 12px; border-radius: 12px; background: rgba(59, 130, 246, 0.1); 
+      color: var(--accent); font-weight: 600; text-decoration: none; display: flex; 
+      justify-content: space-between; align-items: center; transition: 0.2s;
+    }
+    .link-arrow:hover { background: var(--accent); color: white; padding-left: 20px; padding-right: 20px; }
 
-    /* --- REVEAL --- */
-    .reveal { opacity: 0; transform: translateY(50px); transition: 1s ease-out; }
-    .reveal.active { opacity: 1; transform: translateY(0); }
+    /* --- TIMELINE --- */
+    .timeline-box {
+        background: var(--glass); border: 1px solid var(--glass-border); padding: 40px; 
+        border-radius: 24px; position: relative; overflow: hidden;
+    }
+    .timeline-item {
+        position: relative; padding-left: 30px; border-left: 2px solid var(--glass-border); padding-bottom: 30px;
+    }
+    .timeline-item:last-child { border-left: 2px solid transparent; padding-bottom: 0; }
+    .timeline-dot {
+        position: absolute; left: -6px; top: 0; width: 10px; height: 10px; border-radius: 50%;
+        background: var(--bg); border: 2px solid var(--accent);
+        transition: 0.3s;
+    }
+    .timeline-item:hover .timeline-dot { background: var(--accent); transform: scale(1.3); }
 
+    /* --- FOOTER --- */
+    footer { 
+      padding: 40px 20px; text-align: center; color: var(--text-muted); 
+      font-size: 0.75rem; border-top: 1px solid var(--glass-border); margin-top: 50px;
+    }
+
+    /* --- MOBILE OPTIMIZATIONS --- */
     @media (max-width: 900px) { .chart-container { grid-template-columns: 1fr; } }
+    @media (max-width: 768px) {
+      .hamburger { display: block; }
+      .nav-links {
+        position: fixed; top: var(--nav-height); left: 0; width: 100%; 
+        background: #020617; border-bottom: 1px solid var(--glass-border);
+        flex-direction: column; padding: 30px; gap: 20px;
+        transform: translateY(-150%); transition: 0.4s ease-in-out;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+      }
+      .nav-links.active { transform: translateY(0); }
+      .nav-links a, .nav-links .btn-cta { width: 100%; text-align: center; display: block; }
+      section { padding: 60px 20px; }
+      .hero h1 { font-size: 2.8rem; }
+      .hero-btns { flex-direction: column; width: 100%; }
+      .btn-primary, .btn-secondary { width: 100%; }
+      .radar-box { padding: 30px 20px; }
+      .radar { width: 180px; height: 180px; }
+    }
+
+    /* --- REVEAL ANIMATION --- */
+    .reveal { opacity: 0; transform: translateY(30px); transition: 0.8s ease-out; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
   </style>
 </head>
 <body>
 
+  <div id="progress-bar"></div>
+
   <div class="bg-canvas">
-    <div class="neural-orb" style="top: -10%; left: -5%;"></div>
-    <div class="neural-orb" style="bottom: -10%; right: -5%; background: radial-gradient(circle, rgba(168, 85, 247, 0.4), transparent 70%);"></div>
+    <div class="bg-grid"></div>
+    <div class="neural-orb orb-1"></div>
+    <div class="neural-orb orb-2"></div>
   </div>
 
   <header>
     <nav>
-      <div class="logo">AKSHAT<span>.PRO</span></div>
-      <ul style="display: flex; gap: 25px; list-style: none; font-size: 0.85rem;">
-        <li><a href="#about" style="color: var(--text-muted); text-decoration: none;">Intelligence</a></li>
-        <li><a href="#projects" style="color: var(--text-muted); text-decoration: none;">Ecosystem</a></li>
-        <li><a href="#contact" style="color: white; text-decoration: none; background: var(--accent); padding: 8px 20px; border-radius: 50px;">Hire Me</a></li>
+      <div class="logo">
+        <i class="fas fa-robot" style="color: var(--accent); font-size: 1.5rem;"></i>
+        AKSHAT<span>.PRO</span>
+      </div>
+      <div class="hamburger" onclick="toggleMenu()">
+        <i class="fas fa-bars"></i>
+      </div>
+      <ul class="nav-links">
+        <li><a href="#about" onclick="toggleMenu()">About</a></li>
+        <li><a href="#services" onclick="toggleMenu()">Services</a></li>
+        <li><a href="#projects" onclick="toggleMenu()">Work</a></li>
+        <li><a href="#contact" class="btn-cta" onclick="toggleMenu()">Hire Me</a></li>
       </ul>
     </nav>
   </header>
 
   <main>
-    <section style="height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center;">
+    <section class="hero">
       <div class="reveal">
-        <h1 style="font-size: clamp(3rem, 10vw, 6rem); line-height: 0.9; margin-bottom: 20px;">Akshat Darji</h1>
-        <p style="color: var(--text-muted); max-width: 700px; margin: 0 auto 40px;">Pro AI-Based Developer merging neural logic with high-performance web architecture.</p>
-        <div style="display: flex; gap: 15px; justify-content: center;">
-          <a href="#projects" style="padding: 18px 40px; border-radius: 50px; background: var(--accent); color: white; text-decoration: none; font-weight: 700;">Explore Work</a>
+        <div class="system-badge">
+          <span class="status-dot"></span> AVAILABLE FOR WORK
+        </div>
+        <h1>Akshat Darji</h1>
+        <div class="hero-role">Full-Stack AI Developer</div>
+        
+        <p>I build scalable SaaS applications, integrate AI models, and design high-performance websites for startups and businesses.</p>
+        
+        <div class="hero-btns">
+          <a href="#projects" class="btn-primary">View My Work</a>
+          <a href="#services" class="btn-secondary">My Services</a>
         </div>
       </div>
     </section>
 
     <section id="about">
-      <h2 class="section-title reveal">Intelligence <span>Matrix</span></h2>
+      <h2 class="section-title reveal"><span data-text="Matrix">Matrix</span></h2>
       <div class="chart-container">
         
         <div class="radar-box reveal">
-          <h3 style="margin-bottom: 30px;">Neural Performance Chart</h3>
+          <h3 style="margin-bottom: 10px;">Technical Core</h3>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 20px;">Efficiency & Skill Distribution</p>
           <div class="radar">
             <div class="radar-shape"></div>
-            <span class="label" style="top: -30px;">Logic Building</span>
-            <span class="label" style="right: -40px; top: 40%;">AI Integration</span>
-            <span class="label" style="bottom: -30px;">Data Structure</span>
-            <span class="label" style="left: -40px; top: 40%;">UI Architecture</span>
+            <span class="label" style="top: -25px;">Logic</span>
+            <span class="label" style="right: -35px; top: 40%;">AI API</span>
+            <span class="label" style="bottom: -25px;">Database</span>
+            <span class="label" style="left: -35px; top: 40%;">React</span>
           </div>
-          <p style="margin-top: 40px; font-size: 0.85rem; color: var(--text-muted); text-align: center;">
-            Visualization of my pro-level performance across core development pillars, optimized by AI.
-          </p>
         </div>
 
-        <div class="radar-box reveal">
-          <h3 style="margin-bottom: 30px;">AI-Driven Workflow</h3>
+        <div class="radar-box reveal" style="transition-delay: 100ms;">
+          <h3 style="margin-bottom: 20px;">Dev Workflow</h3>
           <div class="flow-chart">
-            <div class="flow-step"><h4>Neural Research</h4><p>Grok • DeepSeek • Perplexity</p></div>
-            <div class="flow-step"><h4>Logic Architecture</h4><p>ChatGPT • Gemini • Logic Mapping</p></div>
-            <div class="flow-step"><h4>Pro-Level Coding</h4><p>Blackbox • Replit AI • Clean Execution</p></div>
-            <div class="flow-step"><h4>Automated QA</h4><p>Debugging & Scalability Testing</p></div>
+            <div class="flow-step">
+              <h4><i class="fas fa-search" style="color: var(--accent);"></i> AI Research</h4>
+              <p>DeepSeek • Perplexity • Architecture Planning</p>
+            </div>
+            <div class="flow-step">
+              <h4><i class="fas fa-code" style="color: var(--accent);"></i> Development</h4>
+              <p>Next.js • Supabase • Tailwind CSS</p>
+            </div>
+            <div class="flow-step">
+              <h4><i class="fas fa-rocket" style="color: var(--accent);"></i> Deployment</h4>
+              <p>Vercel • CI/CD • Optimization</p>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section>
-        <h2 class="section-title reveal">Academic <span>Blueprint</span></h2>
-        <div style="background: var(--glass); border: 1px solid var(--glass-border); padding: 50px; border-radius: 30px;" class="reveal">
-            <div style="border-left: 2px solid var(--accent); padding-left: 30px; margin-bottom: 40px; position: relative;">
-                <h4 style="font-size: 1.5rem; margin-bottom: 10px;">BTECH in Computer Science</h4>
-                <p style="color: var(--text-muted); font-size: 0.95rem;">Currently Pursuing • Deep focus on AI Algorithms and Data Structure Efficiency.</p>
+    <section id="services">
+        <h2 class="section-title reveal"><span data-text="Services">Services</span></h2>
+        <div class="projects-grid">
+          
+          <div class="pro-card reveal" style="text-align: center; align-items: center;">
+            <i class="fas fa-layer-group" style="font-size: 2.5rem; color: var(--accent); margin-bottom: 20px;"></i>
+            <h3 style="font-size: 1.2rem;">Full-Stack Development</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">
+              Complete web applications using <strong>Next.js, React, and Supabase</strong>. From database design to responsive frontend interfaces.
+            </p>
+          </div>
+  
+          <div class="pro-card reveal" style="text-align: center; align-items: center; transition-delay: 100ms;">
+            <i class="fas fa-brain" style="font-size: 2.5rem; color: var(--focus); margin-bottom: 20px;"></i>
+            <h3 style="font-size: 1.2rem;">AI Integration</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">
+              Connecting <strong>OpenAI/Gemini APIs</strong> to your website. I build chatbots, content generators, and smart automation tools.
+            </p>
+          </div>
+  
+          <div class="pro-card reveal" style="text-align: center; align-items: center; transition-delay: 200ms;">
+            <i class="fas fa-rocket" style="font-size: 2.5rem; color: var(--live); margin-bottom: 20px;"></i>
+            <h3 style="font-size: 1.2rem;">SaaS MVP Build</h3>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">
+              Rapidly building <strong>Minimum Viable Products</strong> for startups. I turn your business idea into a deployable, working link.
+            </p>
+          </div>
+  
+        </div>
+      </section>
+
+    <section class="reveal">
+        <div class="timeline-box">
+            <h3 style="margin-bottom: 30px; color: var(--accent);">Professional Timeline</h3>
+            
+            <div class="timeline-item">
+                <span class="timeline-dot"></span>
+                <h4 style="font-size: 1.1rem; color: white;">Web Development Intern</h4>
+                <div style="font-size: 0.85rem; color: var(--live); font-weight: 700; margin-bottom: 5px;">
+                   EASEBIZ COMPANY • PRESENT
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">
+                  Developing professional web solutions, handling backend architecture, and optimizing client projects for production.
+                </p>
             </div>
-            <div style="border-left: 2px solid var(--accent); padding-left: 30px; position: relative;">
-                <h4 style="font-size: 1.5rem; margin-bottom: 10px;">Diploma in Information Technology</h4>
-                <p style="color: var(--text-muted); font-size: 0.95rem;">Completed • Core principles of Software Engineering & Web Models.</p>
+
+            <div class="timeline-item">
+                <span class="timeline-dot" style="border-color: var(--text-muted);"></span>
+                <h4 style="font-size: 1.1rem; color: white;">B.Tech in Computer Science</h4>
+                <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600; margin-bottom: 5px;">
+                   PURSUING
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">
+                  Focusing on Algorithms, Data Structures, and AI Model deployment.
+                </p>
             </div>
+
+            <div class="timeline-item">
+                <span class="timeline-dot" style="border-color: var(--text-muted);"></span>
+                <h4 style="font-size: 1.1rem; color: white;">Diploma in IT</h4>
+                <div style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600; margin-bottom: 5px;">
+                   COMPLETED
+                </div>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">
+                  Software Engineering Core foundation.
+                </p>
+            </div>
+
         </div>
     </section>
 
     <section id="projects">
-      <h2 class="section-title reveal">Project <span>Ecosystem</span></h2>
+      <h2 class="section-title reveal"><span data-text="Ecosystem">Ecosystem</span></h2>
       <div class="projects-grid">
         
         <article class="pro-card reveal">
           <div>
             <span class="badge badge-live">LIVE SYSTEM</span>
             <h3>Equip Track</h3>
-            <p class="tech-stack">[ React • Supabase • QR Code • SQL ]</p>
-            <p style="margin-bottom: 20px;">Enterprise-grade Asset Management System. Companies can track inventory, assign devices to specific employees, and generate printable QR codes for instant asset identification.</p>
+            <p class="tech-stack">React • Supabase • QR Code</p>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">Enterprise-grade Asset Management System with printable QR codes and real-time inventory tracking.</p>
           </div>
-          <a href="https://equip-track-five.vercel.app/" target="_blank" style="color: var(--accent); font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 5px;">
-            Access System <span style="font-size: 1.2rem;">&rarr;</span>
+          <a href="https://equip-track-five.vercel.app/" target="_blank" class="link-arrow">
+            Access System <i class="fas fa-external-link-alt"></i>
           </a>
         </article>
         
-        <article class="pro-card reveal">
+        <article class="pro-card reveal" style="transition-delay: 100ms;">
           <div>
-            <span class="badge badge-live">LIVE</span>
+            <span class="badge badge-live">LIVE SYSTEM</span>
             <h3>FounderAI</h3>
-            <p class="tech-stack">[ AI Integration • Trajectory Mapping ]</p>
-            <p style="margin-bottom: 20px;">A professional AI engine that generates comprehensive business trajectory roadmaps. Proof of AI integration in real-world logic.</p>
+            <p class="tech-stack">AI Integration • Logic Mapping</p>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">Professional AI engine generating comprehensive business trajectory roadmaps for startups.</p>
           </div>
-          <a href="https://founder-ai-roadmap.vercel.app/" target="_blank" style="color: var(--accent); font-weight: 700; text-decoration: none; display: flex; align-items: center; gap: 5px;">
-            Launch Engine <span style="font-size: 1.2rem;">&rarr;</span>
+          <a href="https://founder-ai-roadmap.vercel.app/" target="_blank" class="link-arrow">
+            Launch Engine <i class="fas fa-rocket"></i>
           </a>
         </article>
 
-        <article class="pro-card reveal" style="border-style: dashed;">
+        <article class="pro-card reveal" style="transition-delay: 200ms;">
           <div>
-             <span class="badge" style="color: var(--focus); border: 1px solid var(--focus);">FOCUS</span>
-             <h3>Enough thinking</h3>
-             <p style="margin-bottom: 20px;">AI-powered decision architecture to stop overthinking and start building. In private development.</p>
+            <span class="badge badge-live">LIVE SYSTEM</span>
+            <h3>SnipHive</h3>
+            <p class="tech-stack">Next.js • Supabase • Social</p>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">
+              Centralized code snippet repository allowing developers to store, organize, and reuse critical programming logic efficiently.
+            </p>
           </div>
+          <a href="https://snip-hive.vercel.app/" target="_blank" class="link-arrow">
+            Access Hive <i class="fas fa-code-branch"></i>
+          </a>
+        </article>
+
+        <article class="pro-card reveal" style="transition-delay: 300ms;">
+          <div>
+            <span class="badge badge-live">OPERATIONAL</span>
+            <h3>G-Drive Downloader Bot</h3>
+            <p class="tech-stack">React • Flask • Python</p>
+            <p style="font-size: 0.9rem; color: var(--text-muted);">
+              Automated system for processing Google Drive directories, refactored with a React/Flask architecture for recursive folder handling.
+            </p>
+          </div>
+          <a href="#" target="_blank" class="link-arrow">
+            View Source <i class="fas fa-robot"></i>
+          </a>
         </article>
       </div>
     </section>
 
     <section id="contact" style="text-align: center;">
-      <h2 class="section-title reveal">Connect with <span>Akshat</span></h2>
-      <a href="mailto:akshatdarji278@gmail.com" style="font-size: clamp(1rem, 5vw, 2.5rem); color: white; text-decoration: none; display: block; margin-bottom: 30px;">akshatdarji278@gmail.com</a>
-      <a href="https://wa.me/917861874004" style="padding: 15px 40px; border-radius: 50px; background: white; color: black; text-decoration: none; font-weight: 700;">WhatsApp Pro Chat</a>
+      <h2 class="section-title reveal"><span data-text="Connect">Connect</span></h2>
+      <div class="reveal">
+        <a href="mailto:akshatdarji278@gmail.com" style="font-size: clamp(1rem, 4vw, 2rem); color: white; text-decoration: none; display: block; margin-bottom: 30px; font-weight: 700;">
+          akshatdarji278@gmail.com
+        </a>
+        <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+            <a href="https://wa.me/917861874004" style="display: inline-flex; align-items: center; gap: 10px; padding: 15px 30px; border-radius: 50px; background: #25D366; color: white; text-decoration: none; font-weight: 700; box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3); transition: 0.3s;">
+              <i class="fab fa-whatsapp" style="font-size: 1.2rem;"></i> WhatsApp Pro Chat
+            </a>
+        </div>
+      </div>
     </section>
   </main>
 
-  <footer style="padding: 60px; text-align: center; color: var(--text-muted); font-size: 0.8rem; border-top: 1px solid var(--glass-border);">
-    © 2026 AKSHAT DARJI • BTECH CS & DIPLOMA IT • PRO AI DEVELOPER
+  <footer>
+    <p>© 2026 AKSHAT DARJI • FULL STACK DEVELOPER</p>
+    <p style="font-size: 0.7rem; color: var(--accent); margin-top: 5px;">Built with Neural Logic</p>
   </footer>
 
   <script>
@@ -198,6 +541,25 @@
       entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
     }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    window.onscroll = function() {
+      let winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      let height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      let scrolled = (winScroll / height) * 100;
+      document.getElementById("progress-bar").style.width = scrolled + "%";
+    };
+
+    function toggleMenu() {
+      document.querySelector('.nav-links').classList.toggle('active');
+      const icon = document.querySelector('.hamburger i');
+      if (icon.classList.contains('fa-bars')) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-times');
+      } else {
+        icon.classList.remove('fa-times');
+        icon.classList.add('fa-bars');
+      }
+    }
   </script>
 </body>
 </html>
